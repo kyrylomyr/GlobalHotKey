@@ -13,19 +13,6 @@ namespace GlobalHotKey
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
-        /// <param name="id">The hot key ID registered in the system.</param>
-        public HotKey(Keys key, ModifierKeys modifiers, int id)
-        {
-            Key = key;
-            Modifiers = modifiers;
-            Id = id;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HotKey"/> class.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="modifiers">The key modifiers.</param>
         public HotKey(Keys key, ModifierKeys modifiers)
         {
             Key = key;
@@ -54,14 +41,6 @@ namespace GlobalHotKey
         /// The key modifiers.
         /// </value>
         public ModifierKeys Modifiers { get; set; }
-
-        /// <summary>
-        /// Gets or sets the hot key ID registered in the system.
-        /// </summary>
-        /// <value>
-        /// The hot key ID registered in the system.
-        /// </value>
-        public int Id { get; set; }
 
         #region Equality members
 

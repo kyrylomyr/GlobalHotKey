@@ -12,21 +12,26 @@ namespace GlobalHotKey
     /// <summary>
     /// Provides an ability to setup system-wide hot keys and react on their events.
     /// </summary>
-    public class GlobalHotKey : IDisposable
+    public class HotKeyManager : IDisposable
     {
         private readonly HwndSource _windowHandleSource;
 
-        private readonly HashSet<HotKey> _registered;
+        private readonly Dictionary<HotKey, int> _registered;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GlobalHotKey"/> class.
+        /// Occurs when registered system-wide hot key is pressed.
         /// </summary>
-        public GlobalHotKey()
+        public event EventHandler<KeyPressedEventArgs> KeyPressed;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HotKeyManager"/> class.
+        /// </summary>
+        public HotKeyManager()
         {
             _windowHandleSource = new HwndSource(new HwndSourceParameters());
             _windowHandleSource.AddHook(messagesHandler);
 
-            _registered = new HashSet<HotKey>();
+            _registered = new Dictionary<HotKey, int>();
         }
 
         /// <summary>
@@ -39,7 +44,7 @@ namespace GlobalHotKey
         {
             // Check if specified hot key is already registered.
             var hotKey = new HotKey(key, modifiers);
-            if (_registered.Contains(hotKey))
+            if (_registered.ContainsKey(hotKey))
                 throw new ArgumentException("The specified hot key is already registered.");
 
             // Register new hot key.
@@ -47,19 +52,56 @@ namespace GlobalHotKey
             if (!WinApiHelper.RegisterHotKey(_windowHandleSource.Handle, id, (uint)modifiers, (uint)key))
                 throw new Win32Exception(Marshal.GetLastWin32Error(), "Can't register the hot key.");
 
-            hotKey.Id = id;
-            _registered.Add(hotKey);
+            _registered.Add(hotKey, id);
             
             return hotKey;
         }
 
+        /// <summary>
+        /// Unregisters the hot key.
+        /// </summary>
+        /// <param name="hotKey">The hot key.</param>
+        public void UnregisterHotKey(HotKey hotKey)
+        {
+            int id;
+            if (_registered.TryGetValue(hotKey, out id))
+            {
+                WinApiHelper.UnregisterHotKey(_windowHandleSource.Handle, id);
+                _registered.Remove(hotKey);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="KeyPressed"/> event.
+        /// </summary>
+        /// <param name="e">The <see cref="KeyPressedEventArgs"/> instance containing the hot key information.</param>
+        public void OnKeyPressed(KeyPressedEventArgs e)
+        {
+            var handler = KeyPressed;
+            if (handler != null)
+                handler(this, e);
+        }
+
         private int getFreeKeyId()
         {
-            return _registered.Any() ? _registered.Max(it => it.Id) + 1 : 0;
+            return _registered.Any() ? _registered.Values.Max() + 1 : 0;
         }
 
         private IntPtr messagesHandler(IntPtr handle, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
+            if (message == WinApiHelper.WmHotKey)
+            {
+                // Extract key and modifiers from the message.
+                var key = (Keys)(((int)lParam >> 16) & 0xFFFF);
+                var modifiers = (ModifierKeys)((int)lParam & 0xFFFF);
+                var hotKey = new HotKey(key, modifiers);
+                
+                OnKeyPressed(new KeyPressedEventArgs(hotKey));
+                
+                handled = true;
+                return new IntPtr(1);
+            }
+
             return IntPtr.Zero;
         }
 
@@ -71,7 +113,7 @@ namespace GlobalHotKey
             // Unregister hot keys.
             foreach (var hotKey in _registered)
             {
-                WinApiHelper.UnregisterHotKey(_windowHandleSource.Handle, hotKey.Id);
+                WinApiHelper.UnregisterHotKey(_windowHandleSource.Handle, hotKey.Value);
             }
 
             _windowHandleSource.RemoveHook(messagesHandler);
