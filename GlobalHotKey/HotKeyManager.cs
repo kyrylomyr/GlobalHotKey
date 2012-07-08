@@ -39,22 +39,41 @@ namespace GlobalHotKey
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
-        /// <returns>The registered <see cref="HotKey"/> with system ID.</returns>
+        /// <returns>The registered <see cref="HotKey"/>.</returns>
         public HotKey RegisterHotKey(Keys key, ModifierKeys modifiers)
         {
+            return RegisterHotKey(new HotKey(key, modifiers));
+        }
+
+        /// <summary>
+        /// Registers the system-wide hot key.
+        /// </summary>
+        /// <param name="hotKey">The hot key.</param>
+        /// <returns>The registered <see cref="HotKey"/>.</returns>
+        public HotKey RegisterHotKey(HotKey hotKey)
+        {
             // Check if specified hot key is already registered.
-            var hotKey = new HotKey(key, modifiers);
             if (_registered.ContainsKey(hotKey))
                 throw new ArgumentException("The specified hot key is already registered.");
 
             // Register new hot key.
             var id = getFreeKeyId();
-            if (!WinApiHelper.RegisterHotKey(_windowHandleSource.Handle, id, (uint)modifiers, (uint)key))
+            if (!WinApiHelper.RegisterHotKey(_windowHandleSource.Handle, id, (uint)hotKey.Modifiers, (uint)hotKey.Key))
                 throw new Win32Exception(Marshal.GetLastWin32Error(), "Can't register the hot key.");
 
             _registered.Add(hotKey, id);
-            
+
             return hotKey;
+        }
+
+        /// <summary>
+        /// Unregisters the hot key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="modifiers">The key modifiers.</param>
+        public void UnregisterHotKey(Keys key, ModifierKeys modifiers)
+        {
+            UnregisterHotKey(new HotKey(key, modifiers));
         }
 
         /// <summary>
