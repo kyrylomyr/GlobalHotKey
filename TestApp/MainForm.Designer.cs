@@ -61,6 +61,7 @@
             this.Controls.Add(this.btnRegister);
             this.Name = "MainForm";
             this.Text = "TestApp";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.ResumeLayout(false);
 
         }

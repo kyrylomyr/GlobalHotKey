@@ -6,30 +6,35 @@ namespace TestApp
 {
     public partial class MainForm : Form
     {
-        private readonly HotKeyManager _manager;
+        private readonly HotKeyManager _hotKeyManager;
 
         public MainForm()
         {
             InitializeComponent();
-            _manager = new HotKeyManager();
-            _manager.KeyPressed += _manager_KeyPressed;
+            _hotKeyManager = new HotKeyManager();
+            _hotKeyManager.KeyPressed += HotKeyManagerPressed;
         }
 
-        void _manager_KeyPressed(object sender, KeyPressedEventArgs e)
+        void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
         {
             MessageBox.Show("Hot key pressed!");
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            _manager.RegisterHotKey(Keys.F5,
+            _hotKeyManager.Register(Keys.F5,
                                     System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
         }
 
         private void btnUnregister_Click(object sender, EventArgs e)
         {
-            _manager.UnregisterHotKey(Keys.F5,
+            _hotKeyManager.Unregister(Keys.F5,
                                     System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _hotKeyManager.Dispose();
         }
     }
 }

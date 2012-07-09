@@ -1,12 +1,12 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace GlobalHotKey
+namespace GlobalHotKey.Internal
 {
     /// <summary>
     /// Represents system-wide hot key.
     /// </summary>
-    public class HotKey
+    internal class HotKey
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HotKey"/> class.

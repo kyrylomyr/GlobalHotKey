@@ -1,4 +1,6 @@
 using System;
+using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace GlobalHotKey
 {
@@ -8,17 +10,24 @@ namespace GlobalHotKey
     public class KeyPressedEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the pressed hot key.
-        /// </summary>
-        public HotKey HotKey { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="KeyPressedEventArgs"/> class.
         /// </summary>
-        /// <param name="hotKey">The hot key.</param>
-        public KeyPressedEventArgs(HotKey hotKey)
+        /// <param name="key">The key.</param>
+        /// <param name="modifiers">The key modifiers.</param>
+        public KeyPressedEventArgs(Keys key, ModifierKeys modifiers)
         {
-            HotKey = hotKey;
+            Key = key;
+            Modifiers = modifiers;
         }
+
+        /// <summary>
+        /// Gets the key.
+        /// </summary>
+        public Keys Key { get; private set; }
+
+        /// <summary>
+        /// Gets the key modifiers.
+        /// </summary>
+        public ModifierKeys Modifiers { get; private set; }
     }
 }

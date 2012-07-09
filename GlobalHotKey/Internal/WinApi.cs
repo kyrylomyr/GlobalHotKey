@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace GlobalHotKey
+namespace GlobalHotKey.Internal
 {
-    internal class WinApiHelper
+    /// <summary>
+    /// Contains imported Win32 API functions and constants.
+    /// </summary>
+    internal class WinApi
     {
         /// <summary>
         /// Registers a system-wide hot key.
