@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using GlobalHotKey.Internal;
@@ -41,7 +40,7 @@ namespace GlobalHotKey
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
         /// <returns>The registered <see cref="HotKey"/>.</returns>
-        public void Register(Keys key, ModifierKeys modifiers)
+        public void Register(Key key, ModifierKeys modifiers)
         {
             // Check if specified hot key is already registered.
             var hotKey = new HotKey(key, modifiers);
@@ -50,7 +49,7 @@ namespace GlobalHotKey
 
             // Register new hot key.
             var id = getFreeKeyId();
-            if (!WinApi.RegisterHotKey(_windowHandleSource.Handle, id, (uint)hotKey.Modifiers, (uint)hotKey.Key))
+            if (!WinApi.RegisterHotKey(_windowHandleSource.Handle, id, hotKey.Key, hotKey.Modifiers))
                 throw new Win32Exception(Marshal.GetLastWin32Error(), "Can't register the hot key.");
 
             _registered.Add(hotKey, id);
@@ -61,7 +60,7 @@ namespace GlobalHotKey
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
-        public void Unregister(Keys key, ModifierKeys modifiers)
+        public void Unregister(Key key, ModifierKeys modifiers)
         {
             var hotKey = new HotKey(key, modifiers);
             int id;
@@ -97,7 +96,7 @@ namespace GlobalHotKey
             if (message == WinApi.WmHotKey)
             {
                 // Extract key and modifiers from the message.
-                var key = (Keys)(((int)lParam >> 16) & 0xFFFF);
+                var key = KeyInterop.KeyFromVirtualKey(((int)lParam >> 16) & 0xFFFF);
                 var modifiers = (ModifierKeys)((int)lParam & 0xFFFF);
 
                 onKeyPressed(new KeyPressedEventArgs(key, modifiers));

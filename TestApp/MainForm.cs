@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Windows.Input;
 using GlobalHotKey;
 
 namespace TestApp
@@ -22,13 +23,13 @@ namespace TestApp
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            _hotKeyManager.Register(Keys.F5,
+            _hotKeyManager.Register(Key.F5,
                                     System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
         }
 
         private void btnUnregister_Click(object sender, EventArgs e)
         {
-            _hotKeyManager.Unregister(Keys.F5,
+            _hotKeyManager.Unregister(Key.F5,
                                     System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Alt);
         }
 

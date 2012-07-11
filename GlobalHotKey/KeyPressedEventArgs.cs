@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace GlobalHotKey
@@ -14,7 +13,7 @@ namespace GlobalHotKey
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
-        public KeyPressedEventArgs(Keys key, ModifierKeys modifiers)
+        public KeyPressedEventArgs(Key key, ModifierKeys modifiers)
         {
             Key = key;
             Modifiers = modifiers;
@@ -23,7 +22,7 @@ namespace GlobalHotKey
         /// <summary>
         /// Gets the key.
         /// </summary>
-        public Keys Key { get; private set; }
+        public Key Key { get; private set; }
 
         /// <summary>
         /// Gets the key modifiers.

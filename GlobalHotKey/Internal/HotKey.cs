@@ -1,4 +1,3 @@
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace GlobalHotKey.Internal
@@ -13,7 +12,7 @@ namespace GlobalHotKey.Internal
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
-        public HotKey(Keys key, ModifierKeys modifiers)
+        public HotKey(Key key, ModifierKeys modifiers)
         {
             Key = key;
             Modifiers = modifiers;
@@ -32,7 +31,7 @@ namespace GlobalHotKey.Internal
         /// <value>
         /// The key.
         /// </value>
-        public Keys Key { get; set; }
+        public Key Key { get; set; }
 
         /// <summary>
         /// Gets or sets the key modifiers.
