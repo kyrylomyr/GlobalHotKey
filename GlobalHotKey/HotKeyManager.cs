@@ -40,10 +40,20 @@ namespace GlobalHotKey
         /// <param name="key">The key.</param>
         /// <param name="modifiers">The key modifiers.</param>
         /// <returns>The registered <see cref="HotKey"/>.</returns>
-        public void Register(Key key, ModifierKeys modifiers)
+        public HotKey Register(Key key, ModifierKeys modifiers)
+        {
+            var hotKey = new HotKey(key, modifiers);
+            Register(hotKey);
+            return hotKey;
+        }
+
+        /// <summary>
+        /// Registers the system-wide hot key.
+        /// </summary>
+        /// <param name="hotKey">The hot key.</param>
+        public void Register(HotKey hotKey)
         {
             // Check if specified hot key is already registered.
-            var hotKey = new HotKey(key, modifiers);
             if (_registered.ContainsKey(hotKey))
                 throw new ArgumentException("The specified hot key is already registered.");
 
@@ -63,6 +73,15 @@ namespace GlobalHotKey
         public void Unregister(Key key, ModifierKeys modifiers)
         {
             var hotKey = new HotKey(key, modifiers);
+            Unregister(hotKey);
+        }
+
+        /// <summary>
+        /// Unregisters previously registered hot key.
+        /// </summary>
+        /// <param name="hotKey">The registered hot key.</param>
+        public void Unregister(HotKey hotKey)
+        {
             int id;
             if (_registered.TryGetValue(hotKey, out id))
             {
@@ -98,8 +117,9 @@ namespace GlobalHotKey
                 // Extract key and modifiers from the message.
                 var key = KeyInterop.KeyFromVirtualKey(((int)lParam >> 16) & 0xFFFF);
                 var modifiers = (ModifierKeys)((int)lParam & 0xFFFF);
-
-                onKeyPressed(new KeyPressedEventArgs(key, modifiers));
+                
+                var hotKey = new HotKey(key, modifiers);
+                onKeyPressed(new KeyPressedEventArgs(hotKey));
                 
                 handled = true;
                 return new IntPtr(1);

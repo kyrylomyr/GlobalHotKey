@@ -1,11 +1,11 @@
 using System.Windows.Input;
 
-namespace GlobalHotKey.Internal
+namespace GlobalHotKey
 {
     /// <summary>
     /// Represents system-wide hot key.
     /// </summary>
-    internal class HotKey
+    public class HotKey
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HotKey"/> class.

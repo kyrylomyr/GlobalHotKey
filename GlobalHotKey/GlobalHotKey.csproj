@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HotKeyManager.cs" />
-    <Compile Include="Internal\HotKey.cs" />
+    <Compile Include="HotKey.cs" />
     <Compile Include="KeyPressedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\WinApi.cs" />
