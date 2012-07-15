@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GlobalHotKey")]
-[assembly: AssemblyDescription("Provides an ability to setup system-wide hot keys and react on their events.")]
+[assembly: AssemblyDescription("Provides an easy way to setup system-wide hot keys and react on their events")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("GlobalHotKey")]
