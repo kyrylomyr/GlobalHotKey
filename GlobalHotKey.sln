@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalHotKey", "GlobalHotKey\GlobalHotKey.csproj", "{309C707F-4DFA-4412-9F54-4C0627B626AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{8C48D665-2B69-471E-B99A-F6533360254D}"
@@ -27,12 +29,10 @@ Global
 		{309C707F-4DFA-4412-9F54-4C0627B626AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{8C48D665-2B69-471E-B99A-F6533360254D}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Debug|x86.ActiveCfg = Debug|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Debug|x86.Build.0 = Debug|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Release|Any CPU.ActiveCfg = Release|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{8C48D665-2B69-471E-B99A-F6533360254D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Release|x86.ActiveCfg = Release|x86
 		{8C48D665-2B69-471E-B99A-F6533360254D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
